@@ -1,26 +1,12 @@
 # pyrefly: ignore [missing-import]
 from langgraph.graph import StateGraph, START, END
-
+from nodes.search_node import search_node
 from graph.state import ResearchState
-
-
-def search_node(state: ResearchState):
-    print("Searching...")
-
-    state["search_results"] = (
-        f"Dummy search results for: {state['question']}"
-    )
-
-    return state
+from nodes.search_node import search_node
 
 
 def summary_node(state: ResearchState):
-    print("Summarizing...")
-
-    state["summary"] = (
-        f"Summary based on: {state['search_results']}"
-    )
-
+    state["summary"] = state["search_results"]
     return state
 
 
