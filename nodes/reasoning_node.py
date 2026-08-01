@@ -4,28 +4,40 @@ from utils.llm import llm
 
 def reasoning_node(state: ResearchState):
 
-    history = "\n".join(
-        state.get("history", [])
-    )
+    history = "\n".join(state.get("history", []))
 
-    prompt = f"""
+    if state["search_results"]:
+
+        prompt = f"""
 You are an AI Research Assistant.
 
 Previous Conversation:
-
 {history}
 
-Current Question:
-
+User Question:
 {state["question"]}
 
 Search Results:
-
 {state["search_results"]}
 
-Use the previous conversation whenever it helps answer the user's question.
+Answer ONLY using the search results.
+Summarize clearly.
+"""
 
-Provide a concise and accurate response.
+    else:
+
+        prompt = f"""
+You are an AI Research Assistant.
+
+Previous Conversation:
+{history}
+
+User Question:
+{state["question"]}
+
+No web search was performed.
+
+Answer using your general knowledge.
 """
 
     response = llm.invoke(prompt)
