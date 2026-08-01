@@ -1,14 +1,21 @@
 from graph.graph_builder import graph
 
-result = graph.invoke(
-    {
-        "question": "Latest developments in LangGraph",
-        "search_results": "",
-        "summary": "",
-        "route": ""
-    }
-)
+state = {
+    "question": "What is LangGraph?",
+    "search_results": "",
+    "summary": "",
+    "route": "",
+    "history": []
+}
 
-print("\nFinal Summary:\n")
+result = graph.invoke(state)
 
-print(result["summary"])
+state = result
+
+state["question"] = "Who developed it?"
+
+result = graph.invoke(state)
+print("\nConversation History:\n")
+
+for item in result["history"]:
+    print(item)
